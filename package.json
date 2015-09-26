@@ -1,0 +1,26 @@
+{
+  "name": "machine-translator",
+  "version": "1.0.0",
+  "description": "translate languages with a statistical model",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/accraze/machine-translator.git"
+  },
+  "keywords": [
+    "language",
+    "translation",
+    "nlp",
+    "machine",
+    "corpus"
+  ],
+  "author": "accraze",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/accraze/machine-translator/issues"
+  },
+  "homepage": "https://github.com/accraze/machine-translator"
+}
