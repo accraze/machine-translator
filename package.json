@@ -47,5 +47,8 @@
     "ghooks": {
       "pre-commit": "npm run test:single && npm run check-coverage"
     }
+  },
+  "dependencies": {
+    "text2token": "1.0.3"
   }
 }
