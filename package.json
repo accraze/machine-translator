@@ -1,10 +1,14 @@
 {
   "name": "machine-translator",
-  "version": "1.0.0",
-  "description": "translate languages with a statistical model",
+  "description": "translate languages using a statistical model",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/index.test.js -w ",
+    "test:single": "istanbul cover -x *.test.js _mocha tests/index.test.js",
+    "commit": "git-cz",
+    "check-coverage": "istanbul check-coverage --statements 100 --branches 80 --functions 100 --lines 100",
+    "report-coverage": "cat ./coverage/lcov.info | codecov",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
     "type": "git",
@@ -15,12 +19,33 @@
     "translation",
     "nlp",
     "machine",
+    "statistics",
+    "text",
+    "probability",
     "corpus"
   ],
   "author": "accraze",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/accraze/machine-translator/issues"
   },
-  "homepage": "https://github.com/accraze/machine-translator"
+  "homepage": "https://github.com/accraze/machine-translator",
+  "devDependencies": {
+    "chai": "3.3.0",
+    "commitizen": "1.0.4",
+    "cz-conventional-changelog": "1.1.0",
+    "mocha": "2.3.3",
+    "codecov.io": "0.1.6",
+    "istanbul": "0.3.20",
+    "ghooks": "0.3.2",
+    "semantic-release": "^4.3.5"
+  },
+  "czConfig": {
+    "path": "node_modules/cz-conventional-changelog"
+  },
+  "config": {
+    "ghooks": {
+      "pre-commit": "npm run test:single && npm run check-coverage"
+    }
+  }
 }
