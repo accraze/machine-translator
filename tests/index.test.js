@@ -18,5 +18,15 @@ describe('machine-translator', function() {
     expect(t.sentencePairs).not.to.have.length(0);
   });
 
+  it('should initialize transmissions', function () {
+    var t = new Translator('./tests/data/shortEN.txt', './tests/data/shortDE.txt')
+    expect(t.transmissions).to.be.empty;
+    t.train()
 
+    expect(t.transmissions.the).to.contain({ der: 0.2, Hund: 0.2, die: 0.2, Katze: 0.2, Bus: 0.2 });
+    expect(t.transmissions.cat).to.contain({ die: 0.5, Katze: 0.5 });
+    expect(t.transmissions.dog).to.contain({ der: 0.5, Hund: 0.5 });
+    expect(t.transmissions.bus).to.contain({ der: 0.5, Bus: 0.5 });
+
+  });
 })
