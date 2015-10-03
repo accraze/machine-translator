@@ -53,12 +53,9 @@ function Translator(nativeText, foreignText) {
 Translator.prototype.train = function() {
   this._initTransmissions();
   this._iterateEM(10);
-  console.log('We are training!');
 }
 
 Translator.prototype._initTransmissions = function() {
-  console.log('initializing TEF!');
-
   var probs = {},
       transmissions = {};
 
@@ -169,6 +166,14 @@ Translator.prototype._iterateEM = function(count) {
           }
         }
   }
+}
+
+Translator.prototype.translate = function(nativeWord) {
+  if (!this.transmissions[nativeWord] || nativeWord === undefined) {
+    throw new Error('No match found!');
+  }
+
+  return this.transmissions[nativeWord];
 }
 
 

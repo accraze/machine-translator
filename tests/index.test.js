@@ -36,10 +36,23 @@ describe('machine-translator', function() {
     expect(t.totalf).to.be.empty;
     t.train()
     expect(t.transmissions).not.to.be.empty;
+  });
 
+  it('should return probable translations', function () {
+    var t = new Translator('./tests/data/shortEN.txt', './tests/data/shortDE.txt');
+    t.train()
+    
+    var probableMatches = t.translate('cat')
+    console.log(probableMatches)
+    expect(probableMatches['Katze']).to.equal(0.5)
+  });
 
-
-
-
+  it('should throw an error if translating a non-matching word', function () {
+    var t = new Translator('./tests/data/shortEN.txt', './tests/data/shortDE.txt');
+    t.train()
+    
+    expect(function(){
+      t.translate('cool');
+    }).to.throw('No match found!');
   });
 })
