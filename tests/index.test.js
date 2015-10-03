@@ -7,7 +7,7 @@ describe('machine-translator', function() {
   });
 
   it('should initialize model correctly', function () {
-    var t = new Translator('./tests/data/shortEN.txt', './tests/data/shortDE.txt')
+    var t = new Translator('./tests/data/shortEN.txt', './tests/data/shortDE.txt');
 
     expect(t.nativeLines).to.include('the dog');
     expect(t.nativeWords).not.to.have.length(0);
@@ -18,7 +18,7 @@ describe('machine-translator', function() {
     expect(t.sentencePairs).not.to.have.length(0);
   });
 
-  it('should initialize transmissions', function () {
+  it('should calculate transmissions', function () {
     var t = new Translator('./tests/data/shortEN.txt', './tests/data/shortDE.txt')
     expect(t.transmissions).to.be.empty;
     t.train()
@@ -27,6 +27,19 @@ describe('machine-translator', function() {
     expect(t.transmissions.cat).to.contain({ die: 0.5, Katze: 0.5 });
     expect(t.transmissions.dog).to.contain({ der: 0.5, Hund: 0.5 });
     expect(t.transmissions.bus).to.contain({ der: 0.5, Bus: 0.5 });
+
+  });
+
+  it('should iterate the max likelihood', function () {
+    var t = new Translator('./tests/data/shortEN.txt', './tests/data/shortDE.txt');
+    expect(t.countef).to.be.empty;
+    expect(t.totalf).to.be.empty;
+    t.train()
+    expect(t.transmissions).not.to.be.empty;
+
+
+
+
 
   });
 })
