@@ -31,8 +31,8 @@
   },
   "homepage": "https://github.com/accraze/machine-translator",
   "devDependencies": {
-    "chai": "3.3.0",
     "commitizen": "2.2.0",
+    "chai": "3.4.0",
     "cz-conventional-changelog": "1.1.4",
     "mocha": "2.3.3",
     "codecov.io": "0.1.6",
