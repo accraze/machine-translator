@@ -36,7 +36,7 @@
     "cz-conventional-changelog": "1.1.4",
     "mocha": "2.3.4",
     "codecov.io": "0.1.6",
-    "istanbul": "0.4.0",
+    "istanbul": "0.4.1",
     "ghooks": "1.0.0",
     "semantic-release": "4.3.5"
   },
