@@ -9,7 +9,7 @@ is a nodejs module that uses statistical machine translation to translate betwee
 
 ## Useage:
 This module requires:
- 
+
 1. A native corpus of text (i.e. english text file)
 2. A matching foreign corpus of text (i.e. german text file)
 
@@ -23,7 +23,7 @@ $ node
 
 > t.train();
 > t.translate('cat');
-{ die: 0.5, Katze: 0.5 } 
+{ die: 0.5, Katze: 0.5 }
 
 > t.translate('the');
 { der: 0.2, Hund: 0.2, die: 0.2, Katze: 0.2, Bus: 0.2 }
@@ -35,4 +35,4 @@ $ node
 
 
 ## License:
-MIT License 2015 © Andy Craze
+[MIT](https://github.com/accraze/machine-translator/blob/master/LICENSE) License 2015 © Andy Craze
