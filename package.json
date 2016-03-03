@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/accraze/machine-translator",
   "devDependencies": {
-    "commitizen": "2.5.0",
+    "commitizen": "2.5.1",
     "chai": "3.5.0",
     "cz-conventional-changelog": "1.1.5",
     "mocha": "2.4.5",
