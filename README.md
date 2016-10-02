@@ -7,6 +7,9 @@
 # machine-translator
 is a nodejs module that uses statistical machine translation to translate between two different languages. the module is loosely based off of the IBM model 1 algorithm and has been tested using english.
 
+## Install:
+`$ npm install machine-translator`
+
 ## Useage:
 This module requires:
 
