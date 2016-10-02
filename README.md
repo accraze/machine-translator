@@ -22,9 +22,9 @@ $ node
 >
 > var Translator = require('machine-translator');
 
-> var t = new Translator('./tests/data/shortEN.txt', './tests/data/shortDE.txt')
+> var t = new Translator();
+> t.train('./tests/data/shortEN.txt', './tests/data/shortDE.txt');
 
-> t.train();
 > t.translate('cat');
 { die: 0.5, Katze: 0.5 }
 
