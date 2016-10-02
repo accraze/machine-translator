@@ -2,12 +2,13 @@ var expect = require('chai').expect
 var Translator = require('../src/index.js')
 
 describe('machine-translator', function () {
+  var t = new Translator()
   it('should throw an error if not given a native and foreign text', function () {
-    expect(Translator).to.throw('Native and Foreign Texts are both required!')
+    expect(t.train).to.throw('Native and Foreign Texts are both required!')
   })
 
   it('should initialize model correctly', function () {
-    var t = new Translator('./tests/data/shortEN.txt', './tests/data/shortDE.txt')
+    t.train('./tests/data/shortEN.txt', './tests/data/shortDE.txt')
 
     expect(t.nativeLines).to.include('the dog')
     expect(t.nativeWords).not.to.have.length(0)
@@ -19,9 +20,9 @@ describe('machine-translator', function () {
   })
 
   it('should calculate transmissions', function () {
-    var t = new Translator('./tests/data/shortEN.txt', './tests/data/shortDE.txt')
+    var t = new Translator
     expect(t.transmissions).to.be.empty
-    t.train()
+    t.train('./tests/data/shortEN.txt', './tests/data/shortDE.txt')
 
     expect(t.transmissions.the).to.contain({ der: 0.2, Hund: 0.2, die: 0.2, Katze: 0.2, Bus: 0.2 })
     expect(t.transmissions.cat).to.contain({ die: 0.5, Katze: 0.5 })
@@ -30,16 +31,16 @@ describe('machine-translator', function () {
   })
 
   it('should iterate the max likelihood', function () {
-    var t = new Translator('./tests/data/shortEN.txt', './tests/data/shortDE.txt')
+    var t = new Translator
     expect(t.countef).to.be.empty
     expect(t.totalf).to.be.empty
-    t.train()
+    t.train('./tests/data/shortEN.txt', './tests/data/shortDE.txt')
     expect(t.transmissions).not.to.be.empty
   })
 
   it('should return probable translations', function () {
-    var t = new Translator('./tests/data/shortEN.txt', './tests/data/shortDE.txt')
-    t.train()
+    var t = new Translator
+    t.train('./tests/data/shortEN.txt', './tests/data/shortDE.txt')
 
     var probableMatches = t.translate('cat')
     console.log(probableMatches)
@@ -47,8 +48,8 @@ describe('machine-translator', function () {
   })
 
   it('should throw an error if translating a non-matching word', function () {
-    var t = new Translator('./tests/data/shortEN.txt', './tests/data/shortDE.txt')
-    t.train()
+    var t = new Translator
+    t.train('./tests/data/shortEN.txt', './tests/data/shortDE.txt')
 
     expect(function () {
       t.translate('cool')
