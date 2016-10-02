@@ -17,25 +17,17 @@ This module requires:
 2. A matching foreign corpus of text (i.e. german text file)
 
 ### Example
+```javascript
+var Translator = require('machine-translator');
+
+var t = new Translator();
+
+t.train('./tests/data/shortEN.txt', './tests/data/shortDE.txt');
+
+t.translate('cat'); // { die: 0.5, Katze: 0.5 }
+t.translate('the'); // { der: 0.2, Hund: 0.2, die: 0.2, Katze: 0.2, Bus: 0.2 }
+t.translate('car'); // Error: No matches found!
 ```
-$ node
->
-> var Translator = require('machine-translator');
-
-> var t = new Translator('./tests/data/shortEN.txt', './tests/data/shortDE.txt')
-
-> t.train();
-> t.translate('cat');
-{ die: 0.5, Katze: 0.5 }
-
-> t.translate('the');
-{ der: 0.2, Hund: 0.2, die: 0.2, Katze: 0.2, Bus: 0.2 }
-
-> t.translate('bro');
- Error: No Matches found!
-
-```
-
 
 ## License:
 [MIT](https://github.com/accraze/machine-translator/blob/master/LICENSE) License 2015 © Andy Craze
