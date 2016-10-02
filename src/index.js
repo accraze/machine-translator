@@ -2,11 +2,7 @@ var reader = require('text2token')
 
 module.exports = Translator
 
-function Translator (nativeText, foreignText) {
-  if (nativeText == undefined || foreignText == undefined) {
-    throw new Error('Native and Foreign Texts are both required!')
-  }
-
+function Translator () {
   this.foreignWords = []
   this.foreignLines = []
   this.nativeWords = []
@@ -19,6 +15,12 @@ function Translator (nativeText, foreignText) {
   this.countef = {} // this countef
   this.totalf = {}
   this.totals = {}
+}
+
+Translator.prototype.train = function (nativeText, foreignText) {
+  if (nativeText == undefined || foreignText == undefined) {
+    throw new Error('Native and Foreign Texts are both required!')
+  }
 
   var convertedData = reader.text2token(nativeText)
   this.nativeLines = convertedData.lines
@@ -28,13 +30,12 @@ function Translator (nativeText, foreignText) {
   this.foreignLines = convertedForeignData.lines
   this.foreignWords = convertedForeignData.tokens
 
+  this.sentencePairs = []
   for (var i = 0; i < this.nativeLines.length; i++) {
     var pair = [ this.nativeLines[i], this.foreignLines[i]]
     this.sentencePairs.push(pair)
   }
-}
 
-Translator.prototype.train = function () {
   this._initTransmissions()
   this._iterateEM(10)
 }
