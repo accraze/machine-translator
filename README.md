@@ -10,7 +10,7 @@ is a nodejs module that uses statistical machine translation to translate betwee
 ## Install:
 `$ npm install machine-translator`
 
-## Useage:
+## Usage:
 This module requires:
 
 1. A native corpus of text (i.e. english text file)
