@@ -1,3 +1,8 @@
+/** 
+ * Translator module. Uses statistical machine translation to
+ * translate between two different languages. Loosely based on
+ * the IBM model 1 algorithm.
+ */
 var reader = require('text2token')
 
 module.exports = Translator
@@ -17,6 +22,7 @@ function Translator () {
   this.totals = {}
 }
 
+/** Throw error if native text or foreign text is not provided. */
 Translator.prototype.train = function (nativeText, foreignText) {
   if (nativeText == undefined || foreignText == undefined) {
     throw new Error('Native and Foreign Texts are both required!')
@@ -60,11 +66,11 @@ Translator.prototype._initTransmissions = function () {
         }
       }
     }
-
-    // remove duplicates
+    
+   /** Remove duplicates. */
     word_poss = word_poss.unique()
 
-    // add probable matches
+    /** Add probable matches. */
     probs[word] = word_poss
   }
 
@@ -73,7 +79,6 @@ Translator.prototype._initTransmissions = function () {
   for (var i = 0; i < this.nativeWords.length; i++) {
     var word = this.nativeWords[i]
     var word_probs = this.probs[word]
-
 
     var uniform_prob = 1.0 / word_probs.length
 
@@ -116,8 +121,8 @@ Translator.prototype._iterateEM = function (count) {
 
     this.countef = countef
     this.totalf = totalf
-
-    // iterate over each sentence pair
+    
+    /** Iterate over each sentence pair. */
     for (var k = 0; k < this.sentencePairs.length; k++) {
       var sentence = this.sentencePairs[k]
       var nativeTokens = sentence[0].split('')
@@ -153,6 +158,7 @@ Translator.prototype._iterateEM = function (count) {
   }
 }
 
+/** Throw error if no match is found. */
 Translator.prototype.translate = function (nativeWord) {
   if (!this.transmissions[nativeWord] || nativeWord === undefined) {
     throw new Error('No match found!')
