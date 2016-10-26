@@ -30,23 +30,25 @@ export default class Translator {
 
   train(nativeText, foreignText) {
 
-    if (nativeText == undefined || foreignText == undefined) {
+    if (nativeText === undefined || foreignText === undefined) {
       throw new Error('Native and Foreign Texts are both required!');
     }
 
-    var convertedData = reader.text2token(nativeText);
+    const convertedData = reader.text2token(nativeText);
     this.nativeLines = convertedData.lines;
     this.nativeWords = convertedData.tokens;
 
-    var convertedForeignData = reader.text2token(foreignText);
+    const convertedForeignData = reader.text2token(foreignText);
     this.foreignLines = convertedForeignData.lines;
     this.foreignWords = convertedForeignData.tokens;
 
     this.sentencePairs = [];
 
-    for (var i = 0; i < this.nativeLines.length; i++) {
-      var pair = [ this.nativeLines[i], this.foreignLines[i]];
-      this.sentencePairs.push(pair)
+    for (let index = 0; index < this.nativeLines.length; index++) {
+      this.sentencePairs.push([
+        this.nativeLines[index],
+        this.foreignLines[index]
+      ]);
     }
 
     this._initTransmissions();
@@ -54,120 +56,124 @@ export default class Translator {
   }
 
   _initTransmissions() {
-    var probs         = {},
-        transmissions = {};
+    const probs         = {},
+          transmissions = {};
 
-    for (var i = 0; i < this.nativeWords.length; i++) {
-      var word = this.nativeWords[i];
-      var word_poss = [];
+    for (let wordIndex = 0; wordIndex < this.nativeWords.length; wordIndex++) {
+      const word = this.nativeWords[wordIndex];
+      const word_poss = [];
 
       // if word is in sentence then...
-      for (var j = 0; j < this.nativeLines.length; j++) {
-        var sentence = this.nativeLines[j];
-
+      for (let lineIndex = 0; lineIndex < this.nativeLines.length; lineIndex++) {
+        const sentence = this.nativeLines[lineIndex];
         if (sentence.indexOf(word) > -1) {
-          var matching = this.foreignLines[this.nativeLines.indexOf(sentence)];
-          var matches = matching.split(' ');
-          for (var index = 0; index < matches.length; index++) {
-            word_poss.push(matches[index])
-          }
+          const matching = this.foreignLines[this.nativeLines.indexOf(sentence)];
+          const matches = matching.split(' ');
+          matches.forEach(match => word_poss.push(match));
         }
       }
 
       /** Remove duplicates. */
-      word_poss = _.unique(word_poss);
-
       /** Add probable matches. */
-      probs[word] = word_poss
+      probs[word] = _.unique(word_poss);
     }
 
     this.probs = probs;
 
-    for (var i = 0; i < this.nativeWords.length; i++) {
-      var word = this.nativeWords[i];
-      var word_probs = this.probs[word];
+    for (let wordIndex = 0; wordIndex < this.nativeWords.length; wordIndex++) {
+      const word = this.nativeWords[wordIndex];
+      const word_probs = this.probs[word];
 
-      var uniform_prob = 1.0 / word_probs.length;
+      const uniform_prob = 1.0 / word_probs.length;
 
-      var prob_set = {};
+      const prob_set = {};
 
-      for (var k = 0; k < word_probs.length; k++) {
-        var w = word_probs[k];
-        prob_set[w] = uniform_prob
+      for (let probIndex = 0; probIndex < word_probs.length; probIndex++) {
+        const w = word_probs[probIndex];
+        prob_set[w] = uniform_prob;
       }
 
-      transmissions[word] = prob_set
+      transmissions[word] = prob_set;
     }
-    this.transmissions = transmissions
+
+    this.transmissions = transmissions;
   }
 
   _iterateEM(count) {
-    for (var i = 0; i < count; i++) {
-      var totalf  = {},
-          countef = {};
 
-      for (var j = 0; j < this.nativeWords.length; j++) {
-        var word = this.nativeWords[j];
+    for (let index = 0; index < count; index++) {
+      const totalf  = {},
+            countef = {};
 
-        if (!this.probs.word)
+      for (let wordIndex = 0; wordIndex < this.nativeWords.length; wordIndex++) {
+        const word = this.nativeWords[wordIndex];
+
+        if (!this.probs.word) {
           continue;
+        }
         /* istanbul ignore next */
-        var word_probs = this.probs[word];
+        const word_probs = this.probs[word];
         /* istanbul ignore next */
-        var prob_set = {};
+        const prob_set = {};
         /* istanbul ignore next */
-        for (var k = 0; k < word_probs.length; k++) {
-          var w = word_probs[k];
-          prob_set[w] = 0
+        for (let probIndex = 0; probIndex < word_probs.length; probIndex++) {
+          const w = word_probs[probIndex];
+          prob_set[w] = 0;
         }
         /* istanbul ignore next */
         countef[word] = count;
         /* istanbul ignore next */
-        totalf[word] = 0
+        totalf[word] = 0;
       }
 
       this.countef = countef;
       this.totalf = totalf;
 
+      const self = this;
+
       /** Iterate over each sentence pair. */
-      for (var k = 0; k < this.sentencePairs.length; k++) {
-        var sentence = this.sentencePairs[k];
-        var nativeTokens = sentence[0].split('');
-        var foreignTokens = sentence[1].split('');
+      this.sentencePairs.forEach(sentence => {
 
-        for (var f = 0; f < foreignTokens.length; f++) {
-          this.totals[f] = 0;
-          for (var n = 0; n < nativeTokens.length; n++) {
-            if (!this.transmissions.n)
+        const nativeTokens = sentence[0].split('');
+        const foreignTokens = sentence[1].split('');
+
+        for (let foreign = 0; foreign < foreignTokens.length; foreign++) {
+          this.totals[foreign] = 0;
+          for (let native = 0; native < nativeTokens.length; native++) {
+            if (!this.transmissions.n) {
               continue;
+            }
             /* istanbul ignore next */
-            if (!this.transmissions.n.f)
+            if (!this.transmissions.n.f) {
               continue;
+            }
             /* istanbul ignore next */
-            this.countef[n][f] += this.transmissions[n][f] / this.totals[f]
+            this.countef[native][foreign] +=
+              this.transmissions[native][foreign] / this.totals[foreign];
             /* istanbul ignore next */
-            this.totalf[n] += this.transmissions[n][f] / this.totals[f]
+            this.totalf[native] +=
+              this.transmissions[native][foreign] / this.totals[foreign];
           }
-
         }
 
-        for (var n = 0; n < nativeTokens.length; n++) {
-          if (!this.probs.n)
+        for (let native = 0; native < nativeTokens.length; native++) {
+          if (!this.probs.n) {
             continue;
+          }
           /* istanbul ignore next */
-          var n_prob = self.probs[n];
+          const n_prob = self.probs[native];
           /* istanbul ignore next */
-          for (var f = 0; f < n_prob.length; n++) {
-            this.transmissions[n][f] = this.countef[n][f] / this.totalf[n]
+          for (let foreign = 0; foreign < n_prob.length; native++) {
+            this.transmissions[native][foreign] = this.countef[native][foreign] / this.totalf[native];
           }
         }
-      }
+      });
     }
   }
 
   translate(nativeWord) {
     if (!this.transmissions[nativeWord] || nativeWord === undefined) {
-      throw new Error('No match found!')
+      throw new Error('No match found!');
     }
     return this.transmissions[nativeWord]
   }

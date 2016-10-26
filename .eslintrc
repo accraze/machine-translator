@@ -12,7 +12,7 @@
   "rules": {
     "quotes": [ 2, "single" ],
     "new-cap": 2,
-    "no-underscore-dangle": 2,
+    "no-underscore-dangle": 1,
     "no-undef": 2,
     "no-undef-init": 2,
     "no-unused-vars": 2,
