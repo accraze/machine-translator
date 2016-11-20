@@ -29,5 +29,22 @@ t.translate('the'); // { der: 0.2, Hund: 0.2, die: 0.2, Katze: 0.2, Bus: 0.2 }
 t.translate('car'); // Error: No matches found!
 ```
 
+### NPM Commands
+
+We have some NPM commands to help testing/linting:
+
+```
+npm run test:watch
+
+npm run lint
+
+npm run lint:watch
+# lint in watch mode
+
+npm run compile
+# important!! needs to be run before release, note how main script points to dist instead of src
+```
+
+
 ## License:
-[MIT](https://github.com/accraze/machine-translator/blob/master/LICENSE) License 2015 © Andy Craze
+[MIT](https://github.com/accraze/machine-translator/blob/master/LICENSE) License 2015-2016 © Andy Craze & Contributors
