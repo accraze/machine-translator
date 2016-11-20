@@ -61,7 +61,7 @@
     }
   },
   "dependencies": {
-    "text2token": "1.0.3",
+    "text2token": "1.1.0",
     "underscore": "^1.8.3"
   }
 }
