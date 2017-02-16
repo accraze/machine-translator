@@ -43,7 +43,7 @@
     "babili": "0.0.10",
     "chai": "3.5.0",
     "codecov.io": "0.1.6",
-    "commitizen": "2.9.5",
+    "commitizen": "2.9.6",
     "cz-conventional-changelog": "1.2.0",
     "eslint": "^3.8.1",
     "eslint-watch": "^2.1.14",
