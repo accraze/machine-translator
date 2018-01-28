@@ -47,4 +47,4 @@ npm run compile
 
 
 ## License:
-[MIT](https://github.com/accraze/machine-translator/blob/master/LICENSE) License 2015-2016 © Andy Craze & Contributors
+[MIT](https://github.com/accraze/machine-translator/blob/master/LICENSE) License 2015-2018 © Andy Craze & Contributors
